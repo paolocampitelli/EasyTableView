@@ -173,8 +173,19 @@
 
 - (void)selectCellAtIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated {
 	self.selectedIndexPath	= indexPath;
-	CGPoint defaultOffset	= CGPointMake(0, indexPath.row  *_cellWidthOrHeight);
-	
+
+    CGPoint defaultOffset	= CGPointZero;
+
+    // **** FIX                                                                                       **** //
+    // For multisectioned easyTableView we must calculate the size of the previous sections elements. **** //
+    for (int i = 0; i < indexPath.section; i++) {
+        for (int j = 0; j < [self.dataSource numberOfCellsForEasyTableView:self inSection:i]; j++) {
+            defaultOffset.y += _cellWidthOrHeight;
+        }
+    }
+    // **** END OF FIX **** //
+    
+    defaultOffset.y += indexPath.row  * _cellWidthOrHeight;
 	[self.tableView setContentOffset:defaultOffset animated:animated];
 }
 
