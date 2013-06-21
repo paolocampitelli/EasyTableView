@@ -4,6 +4,7 @@
 //
 //  Created by Aleksey Novicov on 5/30/10.
 //  Copyright 2010 Yodel Code. All rights reserved.
+//  Last fix: 21/07/13 by Gabriele Trabucco e Paolo Campitelli
 //
 //
 /* ===========================================================================
@@ -45,13 +46,13 @@ typedef enum {
 
 @class EasyTableView;
 
-@protocol EasyTableViewDelegate <NSObject>
+@protocol EasyTableViewDataSource <NSObject>
 - (UIView *)easyTableView:(EasyTableView *)easyTableView viewForRect:(CGRect)rect;
 - (void)easyTableView:(EasyTableView *)easyTableView setDataForView:(UIView *)view forIndexPath:(NSIndexPath*)indexPath;
 @optional
-- (void)easyTableView:(EasyTableView *)easyTableView selectedView:(UIView *)selectedView atIndexPath:(NSIndexPath *)indexPath deselectedView:(UIView *)deselectedView;
-- (void)easyTableView:(EasyTableView *)easyTableView scrolledToOffset:(CGPoint)contentOffset;
-- (void)easyTableView:(EasyTableView *)easyTableView scrolledToFraction:(CGFloat)fraction;
+//- (void)easyTableView:(EasyTableView *)easyTableView selectedView:(UIView *)selectedView atIndexPath:(NSIndexPath *)indexPath deselectedView:(UIView *)deselectedView;
+//- (void)easyTableView:(EasyTableView *)easyTableView scrolledToOffset:(CGPoint)contentOffset;
+//- (void)easyTableView:(EasyTableView *)easyTableView scrolledToFraction:(CGFloat)fraction;
 - (NSUInteger)numberOfSectionsInEasyTableView:(EasyTableView*)easyTableView;
 - (NSUInteger)numberOfCellsForEasyTableView:(EasyTableView *)view inSection:(NSInteger)section;
 - (UIView*)easyTableView:(EasyTableView*)easyTableView viewForHeaderInSection:(NSInteger)section;
@@ -59,6 +60,13 @@ typedef enum {
 - (CGFloat)easyTableView:(EasyTableView *)easyTableView heightOrWidthForCellAtIndexPath:(NSIndexPath *)indexPath;
 @end
 
+@protocol EasyTableViewDelegate <NSObject>
+@optional
+- (void)easyTableView:(EasyTableView *)easyTableView selectedView:(UIView *)selectedView atIndexPath:(NSIndexPath *)indexPath deselectedView:(UIView *)deselectedView;
+- (void)easyTableView:(EasyTableView *)easyTableView scrolledToOffset:(CGPoint)contentOffset;
+- (void)easyTableView:(EasyTableView *)easyTableView scrolledToFraction:(CGFloat)fraction;
+
+@end
 
 @interface EasyTableView : UIView <UITableViewDelegate, UITableViewDataSource> {
 @private
@@ -67,6 +75,7 @@ typedef enum {
 }
 
 @property (nonatomic, unsafe_unretained) id<EasyTableViewDelegate> delegate;
+@property (nonatomic, unsafe_unretained) id<EasyTableViewDataSource> dataSource;
 @property (nonatomic, readonly, unsafe_unretained) UITableView *tableView;
 @property (nonatomic, readonly, unsafe_unretained) NSArray *visibleViews;
 @property (nonatomic) NSIndexPath *selectedIndexPath;
