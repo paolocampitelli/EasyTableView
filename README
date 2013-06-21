@@ -1,3 +1,11 @@
+Fork notes:
+
+Just fixed a select cell with multisections tableviews. Also datasource and delegate are unlinked.  
+
+
+
+
+ORIGINAL README:
 EasyTableView Notes - Updated January 10, 2013
 
 IMPORTANT NOTE: The API for EasyTableView has changed of March 1, 2012. So if you have been a consumer of EasyTableView prior to this date, you may find that this update breaks your existing projects. This new release has support for multiple sections, and section headers and footers. To fix any problems created by this update, simply replace any "index" parameter with an "indexPath" parameter. If you don't have an indexPath parameter, you can easily create an indexPatch for an index with:
